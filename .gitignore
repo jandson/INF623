@@ -68,3 +68,14 @@ $RECYCLE.BIN/
 .metadata/.plugins/org.eclipse.team.cvs.core/.running
 .metadata/.plugins/org.eclipse.ui.workbench/workingsets.xml
 .metadata/version.ini
+.metadata/.mylyn/repositories.xml.zip
+.metadata/.mylyn/tasks.xml.zip
+*.snap
+.metadata/.plugins/org.eclipse.core.resources/.safetable/org.eclipse.core.resources
+*.index
+.metadata/.plugins/org.eclipse.jdt.core/externalLibsTimeStamps
+.metadata/.plugins/org.eclipse.jdt.core/javaLikeNames.txt
+.metadata/.plugins/org.eclipse.jdt.core/savedIndexNames.txt
+.metadata/.plugins/org.eclipse.jdt.core/variablesAndContainers.dat
+.metadata/.plugins/org.eclipse.jdt.launching/.install.xml
+.metadata/.plugins/org.eclipse.jdt.launching/libraryInfos.xml
