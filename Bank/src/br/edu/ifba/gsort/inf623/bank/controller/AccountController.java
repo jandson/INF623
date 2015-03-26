@@ -28,5 +28,10 @@ public class AccountController {
 		Account account = AccountDAO.getInstance().deposit(accountId, value);
 		return account;
 	}
+	
+	public Integer getBalance(Integer accountId) {
+		Integer balance = AccountDAO.getInstance().getBalance(accountId);
+		return balance;
+	}
 
 }

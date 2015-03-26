@@ -68,4 +68,19 @@ public class AccountResource {
 		return ctrl.deposit(accountId, value);
 	}
 	
+	/**
+	 * 
+	 * Método responsável por informar o saldo de uma conta.
+	 * 
+	 * @param accountId - ID da conta.
+	 * @return String - Saldo da conta.
+	 */
+	@GET
+	@Path("/getBalance")
+	@Produces("application/json")
+	public String balance(@QueryParam("accountId") Integer accountId) {
+		AccountController ctrl = new AccountController();
+		return ctrl.getBalance(accountId).toString();
+	}
+	
 }

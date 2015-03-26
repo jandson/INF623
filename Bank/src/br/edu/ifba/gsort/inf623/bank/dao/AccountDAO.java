@@ -150,5 +150,38 @@ public class AccountDAO extends ConnectionFactory{
 		
 		return account;
 	}
+	
+	/**
+	 * 
+	 * Método responsável por obter o saldo de uma conta
+	 * 
+	 * @param accountId - ID da conta.
+	 * @return Integer - Saldo.
+	 */
+	public Integer getBalance(Integer accountId) {
+		Integer balance = null;
+		String query = "SELECT * FROM account WHERE id = ? LIMIT 1";
+		
+		Connection connection = this.createConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			preparedStatement = connection.prepareStatement(query);
+			preparedStatement.setInt(1, accountId);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				balance = resultSet.getInt("balance");
+			} else {
+				System.out.println("Cannot found account by id: " + accountId.toString());
+			}
+		} catch (Exception e) {
+			System.out.println("Failure to get balance by account: " + accountId.toString());
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(connection, preparedStatement, resultSet);
+		}
+		
+		return balance;
+	}
 
 }
