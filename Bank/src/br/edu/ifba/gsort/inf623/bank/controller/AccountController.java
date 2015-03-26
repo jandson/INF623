@@ -33,5 +33,10 @@ public class AccountController {
 		Integer balance = AccountDAO.getInstance().getBalance(accountId);
 		return balance;
 	}
+	
+	public Account withdraw(Integer accountId, Integer value) {
+		Account account = AccountDAO.getInstance().withdraw(accountId, value);
+		return account;
+	}
 
 }

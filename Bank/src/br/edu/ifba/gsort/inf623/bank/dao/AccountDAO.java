@@ -183,5 +183,52 @@ public class AccountDAO extends ConnectionFactory{
 		
 		return balance;
 	}
+	
+	/**
+	 * 
+	 * Método responsável por realizar um saque na conta
+	 * 
+	 * @param accountId - ID da conta.
+	 * @param value - Quantia a ser sacada.
+	 * @return Account - Dados da conta com o novo Saldo.
+	 */
+	public Account withdraw(Integer accountId, Integer value) {
+		Account account = null;
+		String query = "SELECT * FROM account WHERE id = ? LIMIT 1 FOR UPDATE";
+		
+		Connection connection = this.createConnection();
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			
+			preparedStatement = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+			preparedStatement.setInt(1, accountId);
+			resultSet = preparedStatement.executeQuery();
+			if (resultSet.first()) {
+				Integer newBalance = resultSet.getInt("balance") - value;
+				if (newBalance >= 0) { 
+					resultSet.updateInt("balance", newBalance);
+					resultSet.updateRow();
+					account = new Account();
+					account.setId(resultSet.getInt("id"));
+					account.setId_client(resultSet.getInt("id_client"));
+					account.setType(resultSet.getInt("type"));
+					account.setBalance(newBalance);
+				} else {
+					System.out.println("Insufficient balance to carry out the withdrawal " + value + " in the account: " + accountId);
+				}
+			} else {
+				System.out.println("Cannot found account by id: " + accountId.toString());
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Failure to deposit " + value.toString() + " in account: " + accountId.toString());
+			e.printStackTrace();
+		} finally {
+			this.closeConnection(connection, preparedStatement, resultSet);
+		}
+		
+		return account;
+	}
 
 }

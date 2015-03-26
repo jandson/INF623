@@ -83,4 +83,20 @@ public class AccountResource {
 		return ctrl.getBalance(accountId).toString();
 	}
 	
+	/**
+	 * 
+	 * Método responsável por realizar um saque na conta.
+	 * 
+	 * @param accountId - ID da conta.
+	 * @param value - Quantia a ser sacada.
+	 * @return Account - Dados da conta com o novo saldo.
+	 */
+	@POST
+	@Path("/withdraw")
+	@Produces("application/json")
+	public Account withdraw(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
+		AccountController ctrl = new AccountController();
+		return ctrl.withdraw(accountId, value);
+	}
+	
 }
