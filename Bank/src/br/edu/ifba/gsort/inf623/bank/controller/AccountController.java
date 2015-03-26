@@ -19,4 +19,14 @@ public class AccountController {
 		return accounts;
 	}
 
+	public Account createAccount(Account account) {
+		Account newAccount = AccountDAO.getInstance().createAccount(account);
+		return newAccount;
+	}
+
+	public Account deposit(Integer accountId, Integer value) {
+		Account account = AccountDAO.getInstance().deposit(accountId, value);
+		return account;
+	}
+
 }

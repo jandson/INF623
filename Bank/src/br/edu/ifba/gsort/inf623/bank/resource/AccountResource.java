@@ -2,9 +2,12 @@ package br.edu.ifba.gsort.inf623.bank.resource;
 
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 import br.edu.ifba.gsort.inf623.bank.controller.AccountController;
 import br.edu.ifba.gsort.inf623.bank.model.Account;
@@ -31,6 +34,38 @@ public class AccountResource {
 	public List<Account> listAll() {
 		AccountController ctrl = new AccountController();
 		return ctrl.listAll();
+	}
+	
+	/**
+	 * 
+	 * Método responsável por criar uma nova conta.
+	 * 
+	 * @param Account - Dados da conta a ser criada.
+	 * @return Account - Dados da conta criada com ID.
+	 */
+	@POST
+	@Path("/create")
+	@Consumes("application/json")
+	@Produces("application/json")
+	public Account createAccount(Account account) {
+		AccountController ctrl = new AccountController();
+		return ctrl.createAccount(account);
+	}
+	
+	/**
+	 * 
+	 * Método responsável por realizar um depósito numa conta.
+	 * 
+	 * @param accountId - ID da conta.
+	 * @param value - Quantia a ser depositada.
+	 * @return Account - Dados da conta com o novo saldo.
+	 */
+	@POST
+	@Path("/deposit")
+	@Produces("application/json")
+	public Account deposit(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
+		AccountController ctrl = new AccountController();
+		return ctrl.deposit(accountId, value);
 	}
 	
 }
