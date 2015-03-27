@@ -8,6 +8,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import br.edu.ifba.gsort.inf623.bank.controller.AccountController;
 import br.edu.ifba.gsort.inf623.bank.model.Account;
@@ -31,9 +34,15 @@ public class AccountResource {
 	@GET
 	@Path("/listAll")
 	@Produces("application/json")
-	public List<Account> listAll() {
-		AccountController ctrl = new AccountController();
-		return ctrl.listAll();
+	public Response listAll() {
+		List<Account> accounts = null;
+		try {
+			accounts = new AccountController().listAll();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+//		return Response.status(Status.OK).entity(accounts).build();
+		return Response.status(Status.OK).entity(new GenericEntity<List<Account>>(accounts){}).build();
 	}
 	
 	/**
@@ -47,9 +56,14 @@ public class AccountResource {
 	@Path("/create")
 	@Consumes("application/json")
 	@Produces("application/json")
-	public Account createAccount(Account account) {
-		AccountController ctrl = new AccountController();
-		return ctrl.createAccount(account);
+	public Response createAccount(Account account) {
+		Account newAccount = null;
+		try {
+			newAccount = new AccountController().createAccount(account);
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		return Response.status(Status.OK).entity(newAccount).build();
 	}
 	
 	/**
@@ -63,9 +77,14 @@ public class AccountResource {
 	@POST
 	@Path("/deposit")
 	@Produces("application/json")
-	public Account deposit(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
-		AccountController ctrl = new AccountController();
-		return ctrl.deposit(accountId, value);
+	public Response deposit(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
+		Account account = null;
+		try {
+			account = new AccountController().deposit(accountId, value);
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		return Response.status(Status.OK).entity(account).build();
 	}
 	
 	/**
@@ -78,9 +97,14 @@ public class AccountResource {
 	@GET
 	@Path("/getBalance")
 	@Produces("application/json")
-	public String balance(@QueryParam("accountId") Integer accountId) {
-		AccountController ctrl = new AccountController();
-		return ctrl.getBalance(accountId).toString();
+	public Response balance(@QueryParam("accountId") Integer accountId) {
+		Integer balance;
+		try {
+			balance = new AccountController().getBalance(accountId);
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		return Response.status(Status.OK).entity(balance.toString()).build();
 	}
 	
 	/**
@@ -90,13 +114,19 @@ public class AccountResource {
 	 * @param accountId - ID da conta.
 	 * @param value - Quantia a ser sacada.
 	 * @return Account - Dados da conta com o novo saldo.
+	 * @throws Exception 
 	 */
 	@POST
 	@Path("/withdraw")
 	@Produces("application/json")
-	public Account withdraw(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
-		AccountController ctrl = new AccountController();
-		return ctrl.withdraw(accountId, value);
+	public Response withdraw(@QueryParam("accountId") Integer accountId, @QueryParam("value") Integer value) {
+		Account account = null;
+		try {
+			account = new AccountController().withdraw(accountId, value);
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		return Response.status(Status.OK).entity(account).build();
 	}
 	
 }

@@ -14,7 +14,7 @@ import br.edu.ifba.gsort.inf623.bank.model.Client;
  */
 public class ClientController {
 	
-	public List<Client> listAll() {
+	public List<Client> listAll() throws Exception {
 		List<Client> clients = ClientDAO.getInstance().listAll();
 		return clients;
 	}

@@ -5,6 +5,9 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import br.edu.ifba.gsort.inf623.bank.controller.ClientController;
 import br.edu.ifba.gsort.inf623.bank.model.Client;
@@ -29,9 +32,14 @@ public class ClientResource {
 	@GET
 	@Path("/listAll")
 	@Produces("application/json")
-	public List<Client> listAll() {
-		ClientController ctrl = new ClientController();
-		return ctrl.listAll();
+	public Response listAll() {
+		List<Client> clients = null;
+		try {
+			clients = new ClientController().listAll();
+		} catch (Exception e) {
+			return Response.status(Status.BAD_REQUEST).entity(e.getMessage()).build();
+		}
+		return Response.status(Status.OK).entity(new GenericEntity<List<Client>>(clients){}).build();
 	}
 	
 }
